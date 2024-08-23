@@ -1,37 +1,61 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { router, Stack } from 'expo-router';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import 'react-native-reanimated';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+const queryClient = new QueryClient();
+const [isLoggedIn, setIsLoggedIn] = React.useState(false)
+
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    SFPro: require("../assets/fonts/SFProText-Regular.ttf"),
   });
 
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+    // if (isLoggedIn) {
+    //   router.replace("/(tabs)");
+    // }
+  }, [loaded, isLoggedIn]);
+
+  //  useEffect(() => {
+  //    const prepareApp = async () => {
+  //      if (loaded) {
+  //        await SplashScreen.hideAsync();
+  //        if (isLoggedIn) {
+  //          router.replace("/(tabs)");
+  //        }
+  //      }
+  //    };
+
+  //    prepareApp();
+  //  }, [loaded, isLoggedIn]);
 
   if (!loaded) {
     return null;
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaView className=" flex-1">
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <StatusBar style="auto" />
+        </Stack>
+      </SafeAreaView>
+    </QueryClientProvider>
   );
 }

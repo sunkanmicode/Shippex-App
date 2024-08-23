@@ -1,5 +1,6 @@
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-// import axiosInstance from "../../utilis/axiosInstance";
+
+
+import axiosInstance from "@/utilis/axiosInstance";
 
 // export interface GenerateOtpData {
 //   phone_number: string;
@@ -22,48 +23,34 @@
 //   password: string;
 // }
 
-// export const getGenerateOpt = async (data: GenerateOtpData) => {
-//   try {
-//     const res = await axiosInstance.post("/auth/generate/otp", data);
-//     const result = res.data;
-//     return result;
-//   } catch (error) {
-//     console.error("Error generate otp :", error);
-//     throw error;
-//   }
-// };
+export const loginApi = async (data:any) => {
+  try {
+    const res = await axiosInstance.post("/login", data);
+    const result = res.data;
+    return result;
+  } catch (error) {
+    console.error("loginApi:", error);
+    throw error;
+  }
+};
 
-// export const VerifyOpt = async (data: VerifyOtpData) => {
-//   // console.log(data, "HHHHH")
-//   const payload = {
-//     otp: data,
-//   };
 
-//   try {
-//     const res = await axiosInstance.post("/auth/verify/otp", payload);
-//     const result = res.data;
-//     return result;
-//   } catch (error) {
-//     console.error("Error VerifyOpt :", error);
-//     throw error;
-//   }
-// };
 
-// export const rendOpt = async (data: any) => {
-//   console.log(data, "rendOptHHHHH");
-//   try {
-//     const res = await axiosInstance.get("/auth/resend/otp", {
-//       params: {
-//         phone_number: data,
-//       },
-//     });
-//     const result = res.data;
-//     return result;
-//   } catch (error) {
-//     console.error("Error VerifyOpt :", error);
-//     throw error;
-//   }
-// };
+export const getShipment = async () => {
+  try {
+    const res = await axiosInstance.get("/frappe.client.get_list", {
+      params: {
+        doctype: "AWB",
+        fields: "*"
+      },
+    });
+    const result = res.data;
+    return result;
+  } catch (error) {
+    console.error("Error VerifyOpt :", error);
+    throw error;
+  }
+};
 
 // export const registerUser = async (data: registerUserData) => {
 //   const requestedPayload = {

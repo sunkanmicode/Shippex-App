@@ -6,11 +6,13 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { CustomButton } from "@/components/custom-components/CustomButton";
 import CustomInput from "@/components/custom-components/CustomInput";
 import { Controller, useForm } from "react-hook-form";
+import { useLoginApi } from "@/api_services/mutations";
+import { useAuthStore } from "@/stores/authStore";
 
 type Props = {
   closeSheet: () => void;
@@ -23,16 +25,28 @@ type formData = {
 };
 
 const LoginScreen = ({ closeSheet }: Props) => {
-   const { control, handleSubmit, formState } = useForm<formData>();
+  const { control, handleSubmit, formState } = useForm<formData>();
+  const userLogin = useAuthStore((state) => state.userLogin);
 
-   const onSubmit = (data: formData) => {
-    console.log(data, "input%%")
-   };
+  const loginUse = useLoginApi(userLogin);
+
+  console.log(loginUse?.data)
+
+  // useEffect(()=>{
+  //   if(loginUse?.data){
+  //     userLogin(data)
+  //   }
+  // },[])
+
+  const onSubmit = (data: formData) => {
+    console.log(data, "input%%");
+    loginUse.mutate({
+      usr: data?.email,
+      pwd: data?.password,
+    });
+  };
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
+  
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
@@ -117,6 +131,7 @@ const LoginScreen = ({ closeSheet }: Props) => {
                     primary
                     label="Password"
                     placeholder="Password"
+                    secureTextEntry
                     value={value}
                     onChangeText={onChange}
                     error={error?.message}
@@ -126,11 +141,14 @@ const LoginScreen = ({ closeSheet }: Props) => {
             </View>
           </View>
           <View>
-            <CustomButton primary  title="Login"  onPress={handleSubmit(onSubmit)}/>
+            <CustomButton
+              primary
+              title={loginUse.isPending ? "Loading..." : "Login"}
+              onPress={handleSubmit(onSubmit)}
+            />
           </View>
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
   );
 };
 

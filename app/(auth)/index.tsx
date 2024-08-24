@@ -7,7 +7,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import LoginScreen from './login-screen';
-import AminationComp from '@/components/AminationComp';
+
 
 const GetStarted = () => {
     const SheetRef = React.useRef<null | any>(null);
@@ -44,7 +44,6 @@ const GetStarted = () => {
         ref={SheetRef}
         message={<LoginScreen closeSheet={closeSheet} />}
       />
-      {/* <AminationComp /> */}
     </>
   );
 }

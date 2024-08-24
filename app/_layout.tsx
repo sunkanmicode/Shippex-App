@@ -1,20 +1,25 @@
-import { useFonts } from 'expo-font';
-import { router, Stack } from 'expo-router';
+import { useFonts } from "expo-font";
+import { router, Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import * as SplashScreen from 'expo-splash-screen';
-import React, { useEffect } from 'react';
-import 'react-native-reanimated';
-import { StatusBar } from 'expo-status-bar';
+import * as SplashScreen from "expo-splash-screen";
+import React, { useEffect } from "react";
+import "react-native-reanimated";
+import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-
-
+import AminationComp from "@/components/AminationComp";
+import { toastConfig } from "@/components/custom-components/CustomToast";
+import Toast from "react-native-toast-message";
+import { useAuthStore } from "@/stores/authStore";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+// SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-const queryClient = new QueryClient();
-const [isLoggedIn, setIsLoggedIn] = React.useState(false)
+  const queryClient = new QueryClient();
+   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const [appReady, setAppReady] = React.useState(false);
+  const [splashOnAnimationFinish, setSplashOnAnimationFinish] =
+    React.useState(false);
 
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
@@ -23,38 +28,42 @@ const [isLoggedIn, setIsLoggedIn] = React.useState(false)
 
   useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync();
+      // SplashScreen.hideAsync();
+      setAppReady(true);
     }
-    // if (isLoggedIn) {
-    //   router.replace("/(tabs)");
-    // }
   }, [loaded, isLoggedIn]);
 
-  //  useEffect(() => {
-  //    const prepareApp = async () => {
-  //      if (loaded) {
-  //        await SplashScreen.hideAsync();
-  //        if (isLoggedIn) {
-  //          router.replace("/(tabs)");
-  //        }
-  //      }
-  //    };
+   useEffect(() => {
+     if (isLoggedIn && appReady) {
+       router.replace("/(tabs)");
+     }
+   }, [isLoggedIn]);
 
-  //    prepareApp();
-  //  }, [loaded, isLoggedIn]);
-
-  if (!loaded) {
-    return null;
+  if (!appReady || !splashOnAnimationFinish) {
+    return (
+      <AminationComp
+        onAnimationFinish={(isCancelled) => {
+          if (!isCancelled) {
+            setSplashOnAnimationFinish(true);
+          }
+        }}
+      />
+    );
   }
+
+  // if (!loaded) {
+  //   return null;
+  // }
 
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaView className=" flex-1">
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <StatusBar style="auto" />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>
+        <Toast config={toastConfig} />
+        <StatusBar style="auto" />
       </SafeAreaView>
     </QueryClientProvider>
   );

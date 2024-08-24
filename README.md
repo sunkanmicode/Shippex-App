@@ -1,50 +1,57 @@
-# Welcome to your Expo app 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# Shippex App
 
-## Get started
+This is a simple Expo React Native app that displays a list of employees and their details.
 
-1. Install dependencies
+## Prerequisites
 
-   ```bash
+Before you begin, ensure you have met the following requirements:
+
+* You have installed the latest version of [Node.js](https://nodejs.org/)
+* You have a Windows/Linux/Mac machine.
+* You have read [Expo's documentation](https://docs.expo.dev/).
+
+## Installing Shippex App
+
+To install the Shippex App, follow these steps:
+
+1. Clone the repository:
+
+2. Navigate to the project directory:
+
+3. Install the dependencies:
+
+```bash
    npm install
    ```
-
-2. Start the app
+Start the app
 
    ```bash
     npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Using Shippex App
 
-## Learn more
+To use Shippex App, follow these steps:
 
-To learn more about developing your project with Expo, look at the following resources:
+1. Start the Expo development server:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+2. Use the Expo Go app on your iOS or Android device to scan the QR code displayed in the terminal or in the browser.
 
-## Join the community
+3. Alternatively, you can run the app on an iOS Simulator or Android Emulator by pressing 'i' or 'a' respectively in the terminal where you ran `npx expo start`.
 
-Join our community of developers creating universal apps.
+## Why Expo?
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Expo is officially recommended for React Native development, especially for new React Native developers. Here are some reasons why:
+
+1. Simplified setup and configuration
+2. Over-the-air updates
+3. Access to Expo's library of pre-built components
+4. Easier testing on physical devices
+5. Simplified build process for iOS and Android
+
+For more information on why Expo is recommended, visit the [official Expo documentation](https://docs.expo.dev/introduction/why-expo/).
+
+## Contact
+
+If you want to contact me, you can reach me at `oguntimehins@gmail.com`.
